@@ -15,53 +15,59 @@ export default new Event('ready', (client) => {
         channel = client.channels.cache.get(process.env.CHANNEL_DEV as string);
     else channel = client.channels.cache.get(process.env.CHANNEL as string);
 
-    cron.schedule('0 18 * * *', () => {
+    cron.schedule('10 17 * * *', () => {
+        Logger.info('New Shedule');
         const Wakestufou = client.users.cache.get('361428013230981121');
-        getGames('FR', true).then((res) => {
-            res.currentGames.forEach((element) => {
-                const urlsImage = element.keyImages;
-                const urlsLengthImage = urlsImage.length;
+        getGames('FR', true)
+            .then((res) => {
+                Logger.info('getGames ok. Size : ' + res.currentGames.length);
+                res.currentGames.forEach((element) => {
+                    const urlsImage = element.keyImages;
+                    const urlsLengthImage = urlsImage.length;
 
-                const embed = new EmbedBuilder()
-                    .setColor(0x0099ff)
-                    .setTitle(element.title)
-                    .setDescription(element.description)
-                    .setAuthor({
-                        name: 'Epic Games Store',
-                        iconURL:
-                            'https://logos-world.net/wp-content/uploads/2021/12/Epic-Games-Logo-700x394.png',
-                        url: 'https://store.epicgames.com/fr/free-games',
-                    });
+                    const embed = new EmbedBuilder()
+                        .setColor(0x0099ff)
+                        .setTitle(element.title)
+                        .setDescription(element.description)
+                        .setAuthor({
+                            name: 'Epic Games Store',
+                            iconURL:
+                                'https://logos-world.net/wp-content/uploads/2021/12/Epic-Games-Logo-700x394.png',
+                            url: 'https://store.epicgames.com/fr/free-games',
+                        });
 
-                if (Wakestufou === undefined) {
-                    embed.setFooter({
-                        text: 'Bot créé par Wakestufou !',
-                    });
-                } else {
-                    embed.setFooter({
-                        text: 'Bot créé par Wakestufou !',
-                        iconURL: Wakestufou.avatarURL()?.toString(),
-                    });
-                }
+                    if (Wakestufou === undefined) {
+                        embed.setFooter({
+                            text: 'Bot créé par Wakestufou !',
+                        });
+                    } else {
+                        embed.setFooter({
+                            text: 'Bot créé par Wakestufou !',
+                            iconURL: Wakestufou.avatarURL()?.toString(),
+                        });
+                    }
 
-                if (urlsLengthImage > 0) {
-                    embed.setThumbnail(urlsImage[0].url);
-                    if (urlsLengthImage > 1) embed.setImage(urlsImage[1].url);
-                }
+                    if (urlsLengthImage > 0) {
+                        embed.setThumbnail(urlsImage[0].url);
+                        if (urlsLengthImage > 1)
+                            embed.setImage(urlsImage[1].url);
+                    }
 
-                if (channel instanceof TextChannel) {
-                    channel
-                        .send({
-                            embeds: [embed],
-                            content: `**Un nouveau jeu gratuit est disponible ! **||<@&${
-                                process.argv.includes('--DEV')
-                                    ? process.env.ROLE_DEV_ID
-                                    : process.env.ROLE_ID
-                            }>||`,
-                        })
-                        .catch((err) => Logger.error('Error : ', err));
-                }
-            });
-        });
+                    if (channel instanceof TextChannel) {
+                        channel
+                            .send({
+                                embeds: [embed],
+                                content: `**Un nouveau jeu gratuit est disponible ! **||<@&${
+                                    process.argv.includes('--DEV')
+                                        ? process.env.ROLE_DEV_ID
+                                        : process.env.ROLE_ID
+                                }>||`,
+                            })
+                            .then(() => Logger.info('Message envoyé !'))
+                            .catch((err) => Logger.error('Error : ', err));
+                    }
+                });
+            })
+            .catch((err) => Logger.error('Error : ', err));
     });
 });
