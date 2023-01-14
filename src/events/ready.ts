@@ -17,7 +17,7 @@ export default new Event('ready', (client) => {
         channel = client.channels.cache.get(process.env.CHANNEL_DEV as string);
     else channel = client.channels.cache.get(process.env.CHANNEL as string);
 
-    cron.schedule('35 20 * * *', () => {
+    cron.schedule('10 17 * * *', () => {
         Logger.info('New Shedule');
         const Wakestufou = client.users.cache.get('361428013230981121');
         getGames('FR', true)
