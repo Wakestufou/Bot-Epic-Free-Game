@@ -8,7 +8,9 @@
     "watch": "tsc -w",
     "start": "ts-node src/index.ts",
     "start:dev": "ts-node-dev src/index.ts --DEV",
-    "start:prod": "node dist/index.js"
+    "start:prod": "node dist/index.js",
+    "start:dev-clear": "ts-node-dev src/index.ts --DEV --CLEAR",
+    "start:dev-force-update": "ts-node-dev src/index.ts --DEV --DELETE --UPDATE"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +20,10 @@
     "dotenv": "^16.0.3",
     "epic-free-games": "^3.1.1",
     "glob": "^8.0.3",
-    "node-cron": "^3.0.2"
+    "node-cron": "^3.0.2",
+    "sequelize": "^6.28.0",
+    "sequelize-typescript": "^2.1.5",
+    "sqlite3": "^5.1.4"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

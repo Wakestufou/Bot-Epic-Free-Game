@@ -11,6 +11,8 @@ declare global {
             CHANNEL_DEV: string;
             ROLE_DEV_ID: string;
             ROLE_ID: string;
+            DATA_BASE: string;
+            DATA_BASE_DEV: string;
         }
     }
 }
